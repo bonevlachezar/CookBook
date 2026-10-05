@@ -11,6 +11,7 @@
 			<th>Име</th>
 			<th>Минути</th>
 			<th>Описание</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -20,6 +21,9 @@
 				<td>@r.Name</td>
 				<td>@r.Minutes</td>
 				<td>@r.Description</td>
+				<td>
+					<a asp-action="Details" asp-route-id="@r.Id" class="btn btn-sm btn-primary">Виж</a>
+				</td>
 			</tr>
 		}
 	</tbody>
