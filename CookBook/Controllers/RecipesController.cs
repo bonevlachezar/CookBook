@@ -1,4 +1,5 @@
 ﻿using CookBook.Data;
+using CookBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -15,7 +16,9 @@ namespace CookBook.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<Recipe> recipes = _context.Recipes.ToList();
+
+            return View(recipes);
         }
     }
 }

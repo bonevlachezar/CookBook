@@ -1,0 +1,26 @@
+﻿@model List<Recipe>
+@{
+	ViewData["Title"] = "Рецепти";
+}
+
+<h1>Рецепти</h1>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Име</th>
+			<th>Минути</th>
+			<th>Описание</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var r in Model)
+		{
+			<tr>
+				<td>@r.Name</td>
+				<td>@r.Minutes</td>
+				<td>@r.Description</td>
+			</tr>
+		}
+	</tbody>
+</table>
