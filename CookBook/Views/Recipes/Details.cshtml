@@ -1,14 +1,15 @@
 ﻿@model Recipe
 @{
-    ViewData["Title"] = Model.Name;
+	ViewData["Title"] = Model.Name;
 }
 
 <div class="card">
-    <div class="card-body">
-        <h2 class="card-title">@Model.Name</h2>
-        <p class="card-text">@Model.Description</p>
-        <p><strong>Време:</strong> @Model.Minutes мин.</p>
-    </div>
+	<div class="card-body">
+		<h2 class="card-title">@Model.Name</h2>
+		<p class="card-text">@Model.Description</p>
+		<p><strong>Време:</strong> @Model.Minutes мин.</p>
+		<p><strong>Категория:</strong> @Model.Category.Name</p>
+	</div>
 </div>
 
 <a asp-action="Index" class="btn btn-secondary mt-3">Назад към списъка</a>

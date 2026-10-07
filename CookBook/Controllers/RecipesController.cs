@@ -1,6 +1,7 @@
 ﻿using CookBook.Data;
 using CookBook.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CookBook.Controllers
@@ -23,7 +24,9 @@ namespace CookBook.Controllers
 
 		public IActionResult Details(int id)
 		{
-			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+			Recipe? recipe = _context.Recipes
+				.Include(r => r.Category)
+				.FirstOrDefault(r => r.Id == id);
 
 			if (recipe == null)
 			{
