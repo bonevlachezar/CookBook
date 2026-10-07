@@ -38,7 +38,7 @@ namespace CookBook.Data
                 {
                     Id = 2,
                     Name = "Постни пълнени чушки с булгур",
-                    Description = "Манджа",
+                    Description = "Ястие за дома",
                     Minutes = 70,
                     CategoryId = 2
                 },
@@ -46,7 +46,7 @@ namespace CookBook.Data
                  {
                      Id = 3,
                      Name = "Пълнена тиква с боб, праз и сини сливи",
-                     Description = "Манджа",
+                     Description = "Гозба от пълнена тиква",
                      Minutes = 60,
                      CategoryId = 2
                  },
