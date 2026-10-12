@@ -1,0 +1,43 @@
+﻿@model Recipe
+@{
+    ViewData["Title"] = "Нова рецепта";
+}
+
+<h1>Нова рецепта</h1>
+
+<form asp-action="Create" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Име</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Описание</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Minutes" class="form-label">Минути</label>
+        <input asp-for="Minutes" class="form-control" />
+        <span asp-validation-for="Minutes" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Категория</label>
+        <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select">
+            <option value="">-- Избери категория --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Запази</button>
+    <a asp-action="Index" class="btn btn-secondary">Отказ</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

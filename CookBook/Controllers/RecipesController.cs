@@ -1,8 +1,8 @@
 ﻿using CookBook.Data;
 using CookBook.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
 
 namespace CookBook.Controllers
 {
@@ -34,6 +34,29 @@ namespace CookBook.Controllers
 			}
 
 			return View(recipe);
+		}
+
+		public IActionResult Create()
+		{
+			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+			return View();
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Create(Recipe recipe)
+		{
+			if (!ModelState.IsValid)
+			{
+				ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+				return View(recipe);
+			}
+
+			_context.Recipes.Add(recipe);
+			_context.SaveChanges();
+
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }
