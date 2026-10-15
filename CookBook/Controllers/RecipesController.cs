@@ -58,5 +58,33 @@ namespace CookBook.Controllers
 
 			return RedirectToAction(nameof(Index));
 		}
+
+		public IActionResult Edit(int id)
+		{
+			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+			if (recipe == null)
+			{
+				return NotFound();
+			}
+			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+			return View(recipe);
+
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(Recipe recipe)
+		{
+			if (!ModelState.IsValid)
+			{
+				ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+				return View(recipe);
+			}
+
+			_context.Recipes.Update(recipe);
+			_context.SaveChanges();
+
+			return RedirectToAction(nameof(Details), new { id = recipe.Id });
+		}
 	}
 }
