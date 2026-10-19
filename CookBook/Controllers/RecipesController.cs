@@ -86,5 +86,32 @@ namespace CookBook.Controllers
 
 			return RedirectToAction(nameof(Details), new { id = recipe.Id });
 		}
+
+		public IActionResult Delete(int id)
+		{
+			Recipe? recipe = _context.Recipes.Include(r => r.Category)
+				.FirstOrDefault(r => r.Id == id);
+
+			if (recipe == null)
+				return NotFound();
+			return View(recipe);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public IActionResult DeleteConfirmed(int id)
+		{
+			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+			if (recipe == null)
+			{
+				return NotFound();
+			}
+			
+			_context.Recipes.Remove(recipe);
+			_context.SaveChanges();
+			return RedirectToAction(nameof(Index));
+		}
+		
+
 	}
 }

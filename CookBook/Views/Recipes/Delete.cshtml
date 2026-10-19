@@ -1,0 +1,21 @@
+﻿@model Recipe
+@{
+    ViewData["Title"] = "Изтриване";
+}
+
+<h2 class="text-danger">Сигурен ли си, че искаш да изтриеш тази рецепта?</h2>
+
+<div class="card">
+    <div class="card-body">
+        <h2 class="card-title">@Model.Name</h2>
+        <p class="card-text">@Model.Description</p>
+        <p><strong>Време:</strong> @Model.Minutes мин.</p>
+        <p><strong>Категория:</strong> @Model.Category.Name</p>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger mt-3">Да, изтрий</button>
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-secondary mt-3">Отказ</a>
+</form>
