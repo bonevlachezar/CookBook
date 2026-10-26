@@ -15,9 +15,13 @@ namespace CookBook.Controllers
 			_context = context;
 		}
 
-		public IActionResult Index()
+		public IActionResult Index(string? search)
 		{
-			List<Recipe> recipes = _context.Recipes.ToList();
+			List<Recipe> recipes = _context.Recipes
+				.Where(r => search == null || r.Name.Contains(search))
+				.ToList();
+
+			ViewData["Search"] = search;
 
 			return View(recipes);
 		}
