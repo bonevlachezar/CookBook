@@ -14,14 +14,12 @@ namespace CookBook.Controllers
 		{
 			_context = context;
 		}
-
 		public IActionResult Index()
 		{
 			List<Recipe> recipes = _context.Recipes.ToList();
 
 			return View(recipes);
 		}
-
 		public IActionResult Details(int id)
 		{
 			Recipe? recipe = _context.Recipes
@@ -35,12 +33,10 @@ namespace CookBook.Controllers
 
 			return View(recipe);
 		}
-
 		public IActionResult Create()
 		{
 			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
 			return View();
-
 		}
 
 		[HttpPost]
@@ -62,13 +58,14 @@ namespace CookBook.Controllers
 		public IActionResult Edit(int id)
 		{
 			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+
 			if (recipe == null)
 			{
 				return NotFound();
 			}
+
 			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
 			return View(recipe);
-
 		}
 
 		[HttpPost]
@@ -89,11 +86,14 @@ namespace CookBook.Controllers
 
 		public IActionResult Delete(int id)
 		{
-			Recipe? recipe = _context.Recipes.Include(r => r.Category)
+			Recipe? recipe = _context.Recipes
+				.Include(r => r.Category)
 				.FirstOrDefault(r => r.Id == id);
 
 			if (recipe == null)
+			{
 				return NotFound();
+			}
 			return View(recipe);
 		}
 
@@ -102,6 +102,7 @@ namespace CookBook.Controllers
 		public IActionResult DeleteConfirmed(int id)
 		{
 			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+
 			if (recipe == null)
 			{
 				return NotFound();
@@ -111,7 +112,5 @@ namespace CookBook.Controllers
 			_context.SaveChanges();
 			return RedirectToAction(nameof(Index));
 		}
-		
-
 	}
 }

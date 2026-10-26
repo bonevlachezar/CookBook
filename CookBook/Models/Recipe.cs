@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+
 namespace CookBook.Models
 {
 	public class Recipe
 	{
 		public int Id { get; set; }
 
-
-		[Required(ErrorMessage = "Името на категорията е задължително")]
+		[Required(ErrorMessage = "Името на рецептата е задължително")]
 		[StringLength(100, MinimumLength = 3, ErrorMessage = "Името трябва да е между 3 и 100 символа")]
 		[Display(Name = "Име")]
 		public string Name { get; set; }
@@ -26,8 +26,6 @@ namespace CookBook.Models
 		public int CategoryId { get; set; }
 
 		public Category? Category { get; set; }
-
-
 	}
 }
 
