@@ -14,12 +14,14 @@ namespace CookBook.Controllers
 		{
 			_context = context;
 		}
+
 		public IActionResult Index()
 		{
 			List<Recipe> recipes = _context.Recipes.ToList();
 
 			return View(recipes);
 		}
+
 		public IActionResult Details(int id)
 		{
 			Recipe? recipe = _context.Recipes
@@ -33,11 +35,13 @@ namespace CookBook.Controllers
 
 			return View(recipe);
 		}
+
 		public IActionResult Create()
 		{
 			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
 			return View();
 		}
+
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
