@@ -1,5 +1,6 @@
 ﻿using CookBook.Data;
 using CookBook.Models;
+using CookBook.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,17 +10,15 @@ namespace CookBook.Controllers
 	public class RecipesController : Controller
 	{
 		private readonly ApplicationDbContext _context;
-
-		public RecipesController(ApplicationDbContext context)
+		private readonly IRecipeService _recipeService;
+		public RecipesController(ApplicationDbContext context, IRecipeService recipeService)
 		{
 			_context = context;
+			_recipeService = recipeService;
 		}
-
 		public IActionResult Index(string? search)
 		{
-			List<Recipe> recipes = _context.Recipes
-				.Where(r => search == null || r.Name.Contains(search))
-				.ToList();
+			List<Recipe> recipes = _recipeService.GetAll(search);
 
 			ViewData["Search"] = search;
 
@@ -28,9 +27,7 @@ namespace CookBook.Controllers
 
 		public IActionResult Details(int id)
 		{
-			Recipe? recipe = _context.Recipes
-				.Include(r => r.Category)
-				.FirstOrDefault(r => r.Id == id);
+			Recipe? recipe = _recipeService.GetById(id);
 
 			if (recipe == null)
 			{
@@ -115,7 +112,7 @@ namespace CookBook.Controllers
 			{
 				return NotFound();
 			}
-			
+
 			_context.Recipes.Remove(recipe);
 			_context.SaveChanges();
 			return RedirectToAction(nameof(Index));
