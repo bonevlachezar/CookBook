@@ -8,5 +8,11 @@ namespace CookBook.Services
 		List<Recipe> GetAll(string? search);
 
 		Recipe? GetById(int id);
+
+		void Add(Recipe recipe);
+
+		void Update(Recipe recipe);
+
+		void Delete(Recipe recipe);
 	}
 }

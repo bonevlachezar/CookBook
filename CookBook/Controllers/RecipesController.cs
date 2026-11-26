@@ -10,7 +10,9 @@ namespace CookBook.Controllers
 	public class RecipesController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+
 		private readonly IRecipeService _recipeService;
+
 		public RecipesController(ApplicationDbContext context, IRecipeService recipeService)
 		{
 			_context = context;
@@ -54,15 +56,15 @@ namespace CookBook.Controllers
 				return View(recipe);
 			}
 
-			_context.Recipes.Add(recipe);
-			_context.SaveChanges();
+			_recipeService.Add(recipe);
 
 			return RedirectToAction(nameof(Index));
 		}
 
 		public IActionResult Edit(int id)
 		{
-			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+			Recipe? recipe =
+				_recipeService.GetById(id);
 
 			if (recipe == null)
 			{
@@ -83,17 +85,15 @@ namespace CookBook.Controllers
 				return View(recipe);
 			}
 
-			_context.Recipes.Update(recipe);
-			_context.SaveChanges();
+			_recipeService.Update(recipe);
 
 			return RedirectToAction(nameof(Details), new { id = recipe.Id });
 		}
 
 		public IActionResult Delete(int id)
 		{
-			Recipe? recipe = _context.Recipes
-				.Include(r => r.Category)
-				.FirstOrDefault(r => r.Id == id);
+			Recipe? recipe =
+				_recipeService.GetById(id);
 
 			if (recipe == null)
 			{
@@ -106,15 +106,13 @@ namespace CookBook.Controllers
 		[ValidateAntiForgeryToken]
 		public IActionResult DeleteConfirmed(int id)
 		{
-			Recipe? recipe = _context.Recipes.FirstOrDefault(r => r.Id == id);
+			Recipe? recipe = _recipeService.GetById(id);
 
 			if (recipe == null)
 			{
 				return NotFound();
 			}
-
-			_context.Recipes.Remove(recipe);
-			_context.SaveChanges();
+			_recipeService.Delete(recipe);
 			return RedirectToAction(nameof(Index));
 		}
 	}

@@ -12,6 +12,18 @@ namespace CookBook.Services
 			_context = context;
 		}
 
+		public void Add(Recipe recipe)
+		{
+			_context.Recipes.Add(recipe);
+			_context.SaveChanges();
+		}
+
+		public void Delete(Recipe recipe)
+		{
+			_context.Recipes.Remove(recipe);
+			_context.SaveChanges();
+		}
+
 		public List<Recipe> GetAll(string? search)
 		{
 			return _context.Recipes
@@ -24,6 +36,12 @@ namespace CookBook.Services
 			return _context.Recipes
 			.Include(r => r.Category)
 			.FirstOrDefault(r => r.Id == id);
+		}
+
+		public void Update(Recipe recipe)
+		{
+			_context.Recipes.Update(recipe);
+			_context.SaveChanges();
 		}
 	}
 }
