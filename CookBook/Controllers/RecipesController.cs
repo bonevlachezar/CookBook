@@ -11,6 +11,7 @@ namespace CookBook.Controllers
 	{
 		private readonly ApplicationDbContext _context;
 
+
 		private readonly IRecipeService _recipeService;
 
 		public RecipesController(ApplicationDbContext context, IRecipeService recipeService)
@@ -18,6 +19,7 @@ namespace CookBook.Controllers
 			_context = context;
 			_recipeService = recipeService;
 		}
+
 		public IActionResult Index(string? search)
 		{
 			List<Recipe> recipes = _recipeService.GetAll(search);
@@ -45,7 +47,6 @@ namespace CookBook.Controllers
 			return View();
 		}
 
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public IActionResult Create(Recipe recipe)
@@ -63,8 +64,7 @@ namespace CookBook.Controllers
 
 		public IActionResult Edit(int id)
 		{
-			Recipe? recipe =
-				_recipeService.GetById(id);
+			Recipe? recipe = _recipeService.GetById(id);
 
 			if (recipe == null)
 			{
@@ -92,13 +92,13 @@ namespace CookBook.Controllers
 
 		public IActionResult Delete(int id)
 		{
-			Recipe? recipe =
-				_recipeService.GetById(id);
+			Recipe? recipe = _recipeService.GetById(id);
 
 			if (recipe == null)
 			{
 				return NotFound();
 			}
+
 			return View(recipe);
 		}
 
@@ -112,6 +112,7 @@ namespace CookBook.Controllers
 			{
 				return NotFound();
 			}
+
 			_recipeService.Delete(recipe);
 			return RedirectToAction(nameof(Index));
 		}
