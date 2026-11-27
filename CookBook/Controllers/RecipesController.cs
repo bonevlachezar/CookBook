@@ -1,23 +1,22 @@
-﻿using CookBook.Data;
-using CookBook.Models;
+﻿using CookBook.Models;
 using CookBook.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace CookBook.Controllers
 {
 	public class RecipesController : Controller
 	{
-		private readonly ApplicationDbContext _context;
+		private readonly ICategoryService _categoryService;
 
 
 		private readonly IRecipeService _recipeService;
 
-		public RecipesController(ApplicationDbContext context, IRecipeService recipeService)
+
+		public RecipesController(IRecipeService recipeService,ICategoryService categoryService)
 		{
-			_context = context;
 			_recipeService = recipeService;
+			_categoryService = categoryService;
 		}
 
 		public IActionResult Index(string? search)
@@ -43,7 +42,7 @@ namespace CookBook.Controllers
 
 		public IActionResult Create()
 		{
-			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+			ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
 			return View();
 		}
 
@@ -53,7 +52,7 @@ namespace CookBook.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+				ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
 				return View(recipe);
 			}
 
@@ -71,7 +70,7 @@ namespace CookBook.Controllers
 				return NotFound();
 			}
 
-			ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+			ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
 			return View(recipe);
 		}
 
@@ -81,7 +80,7 @@ namespace CookBook.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				ViewBag.Categories = new SelectList(_context.Categories.ToList(), "Id", "Name");
+				ViewBag.Categories = new SelectList(_categoryService.GetAll(), "Id", "Name");
 				return View(recipe);
 			}
 
