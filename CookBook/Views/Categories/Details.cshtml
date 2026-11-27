@@ -1,0 +1,26 @@
+﻿@model Category
+@{
+	ViewData["Title"] = Model.Name;
+}
+
+<h1>@Model.Name</h1>
+
+<h4 class="mt-4">Рецепти в тази категория</h4>
+
+@if (Model.Recipes.Count == 0)
+{
+	<p class="text-muted">Все още няма рецепти в тази категория.</p>
+}
+else
+{
+	<ul class="list-group mb-3">
+		@foreach (var r in Model.Recipes)
+		{
+			<li class="list-group-item">
+				<a asp-controller="Recipes" asp-action="Details" asp-route-id="@r.Id">@r.Name</a>
+			</li>
+		}
+	</ul>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Назад към категориите</a>
