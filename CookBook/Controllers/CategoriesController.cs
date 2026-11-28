@@ -1,6 +1,7 @@
 ﻿using CookBook.Models;
 using CookBook.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace CookBook.Controllers
@@ -43,6 +44,7 @@ namespace CookBook.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+
 		public IActionResult Create(Category category)
 		{
 			if (!ModelState.IsValid)
@@ -54,6 +56,31 @@ namespace CookBook.Controllers
 			_categoryService.Add(category);
 
 			return RedirectToAction(nameof(Index));
+		}
+		public IActionResult Edit(int id)
+		{
+			Category? category = _categoryService.GetById(id);
+
+			if (category == null)
+			{
+				return NotFound();
+			}
+
+			return View(category);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Edit(Category category)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(category);
+			}
+
+			_categoryService.Update(category);
+
+			return RedirectToAction(nameof(Details), new { id = category.Id });
 		}
 	}
 }
