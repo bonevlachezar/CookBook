@@ -82,5 +82,37 @@ namespace CookBook.Controllers
 
 			return RedirectToAction(nameof(Details), new { id = category.Id });
 		}
+
+		public IActionResult Delete(int id)
+		{
+			Category? category = _categoryService.GetById(id);
+
+			if (category == null)
+			{
+				return NotFound();
+			}
+
+			return View(category);
+		}
+
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public IActionResult DeleteConfirmed(int id)
+		{
+			Category? category = _categoryService.GetById(id);
+
+			if (category == null)
+			{
+				return NotFound();
+			}
+
+			if (category.Recipes.Count > 0)
+			{
+				return BadRequest();
+			}
+
+			_categoryService.Delete(category);
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }
