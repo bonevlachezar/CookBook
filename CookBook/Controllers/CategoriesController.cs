@@ -2,6 +2,7 @@
 using CookBook.Services;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace CookBook.Controllers
 {
 	public class CategoriesController : Controller
@@ -23,14 +24,36 @@ namespace CookBook.Controllers
 
 		public IActionResult Details(int id)
 		{
-			Category? categories = _categoryService.GetById(id);
+			Category? category = _categoryService.GetById(id);
 
-			if (categories == null)
+			if (category == null)
 			{
 				return NotFound();
 			}
 
-			return View(categories);
+			return View(category);
+
+		}
+
+		public IActionResult Create()
+		{
+			
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public IActionResult Create(Category category)
+		{
+			if (!ModelState.IsValid)
+			{
+				
+				return View(category);
+			}
+
+			_categoryService.Add(category);
+
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }
